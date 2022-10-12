@@ -57,7 +57,6 @@ namespace EmployeeService.Controllers
 
         #endregion
 
-        //TODO: Доработать самостоятельно
 
     }
 }

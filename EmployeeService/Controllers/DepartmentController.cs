@@ -1,4 +1,6 @@
-﻿using EmployeeService.Services;
+﻿using EmployeeService.Models.Dto;
+using EmployeeService.Services;
+using EmployeeService.Services.Impl;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +25,37 @@ namespace EmployeeService.Controllers
 
         #endregion
 
-        //TODO: Доработать самостоятельно
+        #region Public Methods
+
+        [HttpGet("departments/all")]
+        public ActionResult<IList<DepartmentDto>> GetAllDepartments()
+        {
+            return Ok(_departmentRepository.GetAll().Select(dp =>
+                new DepartmentDto
+                {
+                    DepartmentId = dp.Id,
+                    FirstName = dp.Description
+                }
+                ).ToList());
+        }
+
+
+        [HttpPost("departments/create")]
+        public ActionResult<Guid> CreateDepartmente([FromQuery] string description)
+        {
+            return Ok(_departmentRepository.Create(new Models.Department
+            {
+                Description = description
+            }));
+        }
+
+        [HttpDelete("departments/delete")]
+        public ActionResult<bool> DeleteDepartmente([FromQuery] Guid id)
+        {
+            return Ok(_departmentRepository.Delete(id));
+        }
+
+        #endregion
 
     }
 }
